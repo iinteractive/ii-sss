@@ -28,7 +28,7 @@ sub generate_digest {
     my ($self, $timestamp, $data) = @_;
     my $d = Digest::HMAC->new( $self->key, "Digest::SHA1" );
     $d->add( $timestamp );
-    $d->add(" ");
+    $d->add( ' ' );
     $d->add( $data );
     $d->hexdigest;
 }
