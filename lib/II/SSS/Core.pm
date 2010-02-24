@@ -1,6 +1,9 @@
 package II::SSS::Core;
 use Moose::Role;
 
+use Digest::SHA1;
+use Digest::HMAC;
+
 our $VERSION   = '0.01';
 our $AUTHORITY = 'cpan:STEVAN';
 
@@ -9,6 +12,26 @@ has 'key' => (
     isa      => 'Str',
     required => 1,
 );
+
+has 'json' => (
+    is      => 'bare',
+    isa     => 'JSON',
+    lazy    => 1,
+    default => sub { JSON->new },
+    handles => {
+        encode_data => 'encode',
+        decode_data => 'decode',
+    }
+);
+
+sub generate_digest {
+    my ($self, $timestamp, $data) = @_;
+    my $d = Digest::HMAC->new( $self->key, "Digest::SHA1" );
+    $d->add( $timestamp );
+    $d->add(" ");
+    $d->add( $data );
+    $d->hexdigest;
+}
 
 no Moose::Role; 1;
 

@@ -30,12 +30,9 @@ sub verify {
         hmac      => { isa => 'Str' },
     );
 
-    my $d = Digest::HMAC->new( $self->key, "Digest::SHA1" );
-    $d->add( $timestamp );
-    $d->add(" ");
-    $d->add( $data );
+    my $digest = $self->generate_digest( $timestamp, $data );
 
-    if ( $hmac eq $d->hexdigest ) {
+    if ( $hmac eq $digest ) {
 
         my $now   = DateTime->now;
         my $stamp = DateTime->from_epoch( epoch => $timestamp );
@@ -45,7 +42,7 @@ sub verify {
             die II::SSS::Error::TokenExpired->new;
         }
 
-        return JSON->new->decode( $data );
+        return $self->decode_data( $data );
     }
     else {
         die II::SSS::Error::HMACVerificationFail->new;

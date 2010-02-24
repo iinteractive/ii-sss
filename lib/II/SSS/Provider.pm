@@ -3,8 +3,6 @@ use Moose;
 use MooseX::Params::Validate;
 
 use DateTime;
-use Digest::SHA1;
-use Digest::HMAC;
 use JSON;
 
 our $VERSION   = '0.01';
@@ -19,17 +17,13 @@ sub generate {
     );
 
     my $timestamp   = DateTime->now->epoch;
-    my $packed_data = JSON->new->encode( $data );
-
-    my $d = Digest::HMAC->new( $self->key, "Digest::SHA1" );
-    $d->add( $timestamp );
-    $d->add(" ");
-    $d->add( $packed_data );
+    my $packed_data = $self->encode_data( $data );
+    my $digest      = $self->generate_digest( $timestamp, $packed_data );
 
     return {
         timestamp => $timestamp,
         data      => $packed_data,
-        hmac      => $d->hexdigest,
+        hmac      => $digest,
     }
 }
 
