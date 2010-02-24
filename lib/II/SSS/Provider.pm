@@ -3,7 +3,6 @@ use Moose;
 use MooseX::Params::Validate;
 
 use DateTime;
-use JSON;
 
 our $VERSION   = '0.01';
 our $AUTHORITY = 'cpan:STEVAN';
@@ -13,7 +12,6 @@ with 'II::SSS::Core';
 sub generate {
     my ($self, $data) = validated_list(\@_,
         data => { isa => 'HashRef | ArrayRef' },
-
     );
 
     my $timestamp   = DateTime->now->epoch;
