@@ -331,6 +331,14 @@ DISTRIBUTIONS
       Compress::Raw::Zlib 2.065
     requirements:
       ExtUtils::MakeMaker 0
+  Cpanel-JSON-XS-3.0104
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-3.0104.tar.gz
+    provides:
+      Cpanel::JSON::XS 3.0104
+    requirements:
+      ExtUtils::MakeMaker 0
+      Pod::Text 2.08
+      Pod::Usage 1.33
   Data-Dump-1.22
     pathname: G/GA/GAAS/Data-Dump-1.22.tar.gz
     provides:
@@ -1882,6 +1890,7 @@ DISTRIBUTIONS
     provides:
       JSON::MaybeXS 1.002002
     requirements:
+      Cpanel::JSON::XS 2.3310
       ExtUtils::CBuilder 0.27
       ExtUtils::MakeMaker 0
       File::Spec 0
